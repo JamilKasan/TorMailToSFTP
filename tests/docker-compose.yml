@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "82:80"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www/html
+        depends_on:
+            - php
+        networks:
+            - budgetbuddy_network
+
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - budgetbuddy_network
+
+
+networks:
+    budgetbuddy_network:

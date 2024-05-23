@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "91:80"
+        volumes:
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www/html
+        depends_on:
+            - php
+        networks:
+            - tormailtosftp_network
+
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - tormailtosftp_network
+
+
+networks:
+    tormailtosftp_network:
